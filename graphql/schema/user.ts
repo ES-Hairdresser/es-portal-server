@@ -14,6 +14,8 @@ export default gql`
     role: Role!
     notes: String
     profilePicture: String
+    createdAt: string
+    updatedAt: string
   }
 
   input registerInput {
