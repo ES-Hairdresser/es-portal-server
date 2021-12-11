@@ -4,4 +4,7 @@ export default {
   Query: {
     ...users.Query,
   },
+  Mutation: {
+    ...users.Mutation,
+  },
 };

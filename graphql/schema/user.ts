@@ -7,22 +7,23 @@ export default gql`
   }
 
   type User {
-    id: ID!
+    id: ID
     firstName: String!
     lastName: String!
     email: String!
-    role: Role!
+    role: Role
     notes: String
     profilePicture: String
-    createdAt: string
-    updatedAt: string
+    createdAt: String
+    updatedAt: String
   }
 
   input registerInput {
     firstName: String!
     lastName: String!
     email: String!
-    role: Role!
+    password: String!
+    role: Role
     notes: String
     profilePicture: String
   }
@@ -33,6 +34,6 @@ export default gql`
   }
 
   type Mutation {
-    registerUser(input: registerInput): User
+    registerUser(input: registerInput): User!
   }
 `;
