@@ -28,12 +28,13 @@ SCHEMI
 
 - Resolvers utente
 
-    - login/registra utente
-    - aggiungi utente (manuale)
+    - login utente
+    - registra utente +
+    - aggiungi utente (manuale) +
     - modifica utente
     - cancella utente
-    - visualizza dettagli utente
-    - visualizza tutti gli utenti
+    - visualizza dettagli utente +
+    - visualizza tutti gli utenti +
 
 - Resolvers appuntamento
 

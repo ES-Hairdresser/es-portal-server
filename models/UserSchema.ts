@@ -1,32 +1,33 @@
 import { model, Schema } from "mongoose";
+import { ROLE, User } from "../shared/types";
 
 const User: Schema<User> = new Schema(
   {
     firstName: {
-      type: "string",
+      type: "String",
       trim: true,
       required: true,
     },
     lastName: {
-      type: "string",
+      type: "String",
       trim: true,
       required: true,
     },
     email: {
-      type: "string",
+      type: "String",
       trim: true,
       required: true,
     },
     notes: {
-      type: "string",
+      type: "String",
       trim: true,
     },
     profilePicture: {
-      type: "string",
+      type: "String",
       trim: true,
     },
     role: {
-      type: "string",
+      type: "String",
       enum: ROLE,
       default: ROLE.CUSTOMER,
     },

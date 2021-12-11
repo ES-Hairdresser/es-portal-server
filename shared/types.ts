@@ -1,17 +1,27 @@
-enum ROLE {
+export enum ROLE {
   ADMIN = "ADMIN",
   CUSTOMER = "CUSTOMER",
 }
 
-type User = {
-  id?: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  password?: string;
-  role: ROLE;
-  notes?: string;
-  profilePicture?: string;
-  createdAt?: string;
-  updatedAt?: string;
+export interface RegisterInput {
+  firstName: String;
+  lastName: String;
+  email: String;
+  role?: ROLE;
+  password: String;
+  notes?: String;
+  profilePicture?: String;
+}
+
+export type User = {
+  id?: String;
+  firstName: String;
+  lastName: String;
+  email: String;
+  password?: String;
+  role?: ROLE;
+  notes?: String;
+  profilePicture?: String;
+  createdAt?: String;
+  updatedAt?: String;
 };
