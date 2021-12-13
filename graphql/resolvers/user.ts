@@ -1,7 +1,12 @@
 import { ApolloError } from "apollo-server-errors";
 import { Document, Model } from "mongoose";
 import UserModel from "../../models/UserSchema";
-import { User, RegisterInput } from "../../shared/types";
+import {
+  User,
+  RegisterInput,
+  LoginInput,
+  LoginResponse,
+} from "../../shared/types";
 import { isEmailRegistered } from "../helpers/isEmailRegistered";
 
 /* const admin: User = {
@@ -54,6 +59,41 @@ export default {
       const user = new UserModel({ ...input }).save();
 
       return user;
+    },
+
+    async loginUser(_: void, args: LoginInput): Promise<LoginResponse> {
+      const input = JSON.parse(JSON.stringify(args)).input;
+      const { email: inputEmail, password: inputPassword } = input;
+
+      const user = await UserModel.findOne({ inputEmail });
+
+      if (!user) {
+        throw new ApolloError("user email not registered");
+      }
+
+      const {
+        firstName,
+        lastName,
+        profilePicture,
+        role,
+        email: userEmail,
+        password,
+      } = user;
+
+      if (inputPassword !== password) {
+        throw new ApolloError("wrong password");
+      }
+
+      return {
+        userData: {
+          firstName,
+          lastName,
+          email: userEmail,
+          profilePicture,
+        },
+        role,
+        token: "",
+      };
     },
   },
 };

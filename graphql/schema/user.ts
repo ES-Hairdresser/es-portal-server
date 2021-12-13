@@ -28,6 +28,23 @@ export default gql`
     profilePicture: String
   }
 
+  input loginInput {
+    email: String!
+    password: String!
+  }
+
+  type LoggedUserData {
+    email: String!
+    firstName: String!
+    lastName: String!
+    profilePicture: String!
+  }
+
+  type LoginResponse {
+    userData: LoggedUserData
+    role: String!
+    token: String!
+  }
   type Query {
     getUserInfo(id: ID!): User!
     getUsersList: [User!]!
@@ -35,5 +52,6 @@ export default gql`
 
   type Mutation {
     registerUser(input: registerInput): User!
+    loginUser(input: loginInput): LoginResponse!
   }
 `;

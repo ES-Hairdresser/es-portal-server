@@ -25,3 +25,20 @@ export type User = {
   createdAt?: String;
   updatedAt?: String;
 };
+export interface LoginInput {
+  email: String;
+  password: String;
+}
+
+type LoggedUserData = {
+  email: String;
+  firstName: String;
+  lastName: String;
+  profilePicture?: String;
+};
+
+export type LoginResponse = {
+  userData?: LoggedUserData;
+  role?: String;
+  token: String;
+};
