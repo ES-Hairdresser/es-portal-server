@@ -22,6 +22,11 @@ const User: Schema<User> = new Schema(
       type: "String",
       trim: true,
     },
+    password: {
+      type: "String",
+      required: true,
+      trim: true,
+    },
     profilePicture: {
       type: "String",
       trim: true,
