@@ -9,6 +9,7 @@ export interface RegisterInput {
   email: String;
   role?: ROLE;
   password: String;
+  repeatPassword: String;
   notes?: String;
   profilePicture?: String;
 }

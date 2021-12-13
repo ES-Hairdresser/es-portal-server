@@ -1,5 +1,6 @@
 import { ApolloError } from "apollo-server-errors";
-import { Document, Model } from "mongoose";
+import bcrypt from "bcryptjs";
+import { Document } from "mongoose";
 import UserModel from "../../models/UserSchema";
 import {
   User,
@@ -8,6 +9,7 @@ import {
   LoginResponse,
 } from "../../shared/types";
 import { isEmailRegistered } from "../helpers/isEmailRegistered";
+import { validateRegisterInputFields } from "../helpers/validateRegisterInputFields";
 
 /* const admin: User = {
   id: "12345",
@@ -50,8 +52,11 @@ export default {
   Mutation: {
     async registerUser(_: void, args: RegisterInput): Promise<Document<User>> {
       const input = JSON.parse(JSON.stringify(args)).input;
-      console.log(input);
-      const emailRegistered = await isEmailRegistered(input.email, UserModel);
+      const { email, password, repeatPassword } = input;
+
+      await validateRegisterInputFields(email, password, repeatPassword);
+
+      const emailRegistered = await isEmailRegistered(email, UserModel);
 
       if (emailRegistered) {
         throw new ApolloError("L'email inserita é gia registrata nel sistema");

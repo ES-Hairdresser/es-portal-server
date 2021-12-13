@@ -23,6 +23,7 @@ export default gql`
     lastName: String!
     email: String!
     password: String!
+    repeatPassword: String!
     role: Role
     notes: String
     profilePicture: String
