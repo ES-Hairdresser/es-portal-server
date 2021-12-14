@@ -1,39 +1,35 @@
-import { ApolloError } from "apollo-server-errors";
+import { ApolloError } from "apollo-server";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import { Document } from "mongoose";
-import UserModel from "../../models/UserSchema";
+import UserModel from "../../models/User";
+
 import {
   User,
   RegisterInput,
   LoginInput,
   LoginResponse,
-} from "../../shared/types";
+  ROLE,
+} from "../../shared/user";
+import { isAdmin } from "../helpers/isAdmin";
+import { isAuthenticated } from "../helpers/isAuthenticated";
 import { isEmailRegistered } from "../helpers/isEmailRegistered";
 import { validateRegisterInputFields } from "../helpers/validateRegisterInputFields";
 
-/* const admin: User = {
-  id: "12345",
-  firstName: "Admin",
-  lastName: "Test",
-  email: "admin@test.com",
-  role: ROLE.ADMIN,
-};
-
-const customer: User = {
-  id: "67890",
-  firstName: "Customer",
-  lastName: "Test",
-  email: "customer@test.com",
-  role: ROLE.CUSTOMER,
-  notes: "E' uno stronzo",
-};
-
-const UserModel = [admin, customer]; */
-
 export default {
   Query: {
-    async getUserInfo(userId: String): Promise<Document<User>> {
-      const user = await UserModel.findOne((user: User) => user.id === userId);
+    async getUserInfo(
+      _: void,
+      userId: String,
+      ctx: any
+    ): Promise<Document<User>> {
+      const token = ctx.token;
+
+      await isAuthenticated(token);
+      await isAdmin(token);
+
+      const user = await UserModel.findOne({ userId });
+
       if (!user) {
         throw new ApolloError("User not found");
       }
@@ -61,22 +57,27 @@ export default {
       if (emailRegistered) {
         throw new ApolloError("L'email inserita é gia registrata nel sistema");
       }
-      const user = new UserModel({ ...input }).save();
+
+      const salt = bcrypt.genSaltSync(10);
+      const hash = bcrypt.hashSync(password, salt);
+
+      const user = new UserModel({ ...input, password: hash }).save();
 
       return user;
     },
 
     async loginUser(_: void, args: LoginInput): Promise<LoginResponse> {
       const input = JSON.parse(JSON.stringify(args)).input;
-      const { email: inputEmail, password: inputPassword } = input;
+      const { email, password: inputPassword } = input;
 
-      const user = await UserModel.findOne({ inputEmail });
+      const user = await UserModel.findOne({ email });
 
       if (!user) {
-        throw new ApolloError("user email not registered");
+        throw new ApolloError("Email non registrata");
       }
 
       const {
+        _id,
         firstName,
         lastName,
         profilePicture,
@@ -85,8 +86,22 @@ export default {
         password,
       } = user;
 
-      if (inputPassword !== password) {
-        throw new ApolloError("wrong password");
+      const passwordMatch = bcrypt.compareSync(
+        inputPassword,
+        password as string
+      );
+
+      if (!passwordMatch) {
+        throw new ApolloError("Password errata");
+      }
+
+      const token = jwt.sign(
+        { _id, userEmail, role },
+        process.env.JWT_SECRET as string
+      );
+
+      if (!token) {
+        throw new ApolloError("Failed to generate the token");
       }
 
       return {
@@ -97,7 +112,7 @@ export default {
           profilePicture,
         },
         role,
-        token: "",
+        token,
       };
     },
   },

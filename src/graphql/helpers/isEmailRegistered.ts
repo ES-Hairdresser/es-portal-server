@@ -1,5 +1,5 @@
 import { Model } from "mongoose";
-import { User } from "../../shared/types";
+import { User } from "../../shared/user";
 
 export const isEmailRegistered = async (
   email: string,

@@ -23,6 +23,9 @@ MODELLI
     - tipologia (uomo, donna, bambino)
     - prezzo
     - categoria
+    - target
+
+- Modello categoria da aggiungere
 
 SCHEMI 
 
