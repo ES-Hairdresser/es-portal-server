@@ -13,7 +13,7 @@ import {
 } from "../../shared/user";
 import { isAdmin } from "../helpers/isAdmin";
 import { isAuthenticated } from "../helpers/isAuthenticated";
-import { isEmailRegistered } from "../helpers/isEmailRegistered";
+import { isRegistered } from "../helpers/isRegistered";
 import { validateRegisterInputFields } from "../helpers/validateRegisterInputFields";
 
 export default {
@@ -51,12 +51,7 @@ export default {
       const { email, password, repeatPassword } = input;
 
       await validateRegisterInputFields(email, password, repeatPassword);
-
-      const emailRegistered = await isEmailRegistered(email, UserModel);
-
-      if (emailRegistered) {
-        throw new ApolloError("L'email inserita é gia registrata nel sistema");
-      }
+      await isRegistered(email, UserModel);
 
       const salt = bcrypt.genSaltSync(10);
       const hash = bcrypt.hashSync(password, salt);
