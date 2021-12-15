@@ -9,7 +9,8 @@ export interface ServiceType {
   id: String;
   name: String;
   price: Number;
-  description: String;
+  description?: String;
+  category: String;
   target: String;
 }
 
@@ -19,6 +20,7 @@ export interface AddService {
     price: Number;
     description: String;
     target: Target;
+    category: String;
   };
 }
 

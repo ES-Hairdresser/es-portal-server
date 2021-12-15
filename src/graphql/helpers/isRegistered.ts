@@ -3,7 +3,7 @@ import { Model } from "mongoose";
 import { User } from "../../shared/user";
 
 export const isRegistered = async (
-  name: string,
+  name: String,
   model: Model<User, {}, {}, {}>
 ): Promise<boolean> => {
   const element = await model.findOne({ name });

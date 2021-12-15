@@ -1,10 +1,12 @@
 import { gql } from "apollo-server-core";
+import categories from "../../models/Categories";
 
 const typeDefs = gql`
   type Service {
     id: ID!
     name: String!
     price: Float!
+    category: String!
     description: String
     target: Target!
     createdAt: String!
@@ -24,6 +26,7 @@ const typeDefs = gql`
     price: Float!
     description: String
     target: Target!
+    category: String!
   }
 
   type Mutation {

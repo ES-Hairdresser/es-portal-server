@@ -1,5 +1,4 @@
 import { model, Schema } from "mongoose";
-import Category from "./Categories";
 
 const ServiceSchema = new Schema(
   {
@@ -21,8 +20,8 @@ const ServiceSchema = new Schema(
       type: String,
     },
     category: {
-      enum: [Category],
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: "categories",
     },
   },
   {
