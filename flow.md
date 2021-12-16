@@ -26,7 +26,7 @@
 - [x] nome trattamento
 - [x] tipologia (uomo, donna, bambino)
 - [x] prezzo
-- [ ] categoria
+- [x] categoria
 - [x] target
 
 ### Modello categoria ? -> da aggiungere
