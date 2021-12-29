@@ -20,6 +20,7 @@ export type User = {
   lastName: string;
   email: string;
   password?: string;
+  phone: string;
   role?: ROLE;
   notes?: string;
   profilePicture?: string;

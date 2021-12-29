@@ -7,11 +7,12 @@ export default gql`
   }
 
   type User {
-    id: ID
+    _id: ID
     firstName: String!
     lastName: String!
     email: String!
     role: Role
+    phone: String
     notes: String
     profilePicture: String
     createdAt: String
@@ -23,6 +24,7 @@ export default gql`
     lastName: String!
     email: String!
     password: String!
+    phone: String!
     repeatPassword: String!
     role: Role
     notes: String
@@ -47,7 +49,7 @@ export default gql`
     token: String!
   }
   type Query {
-    getUserInfo(id: ID!): User!
+    getUserInfo(_id: ID!): User!
     getUsersList: [User!]!
   }
 

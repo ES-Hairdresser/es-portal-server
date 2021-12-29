@@ -1,7 +1,7 @@
 import { ApolloError } from "apollo-server";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { Document } from "mongoose";
+import { Document, Mongoose, ObjectId } from "mongoose";
 import UserModel from "../../models/User";
 
 import {
@@ -9,7 +9,6 @@ import {
   RegisterInput,
   LoginInput,
   LoginResponse,
-  ROLE,
 } from "../../shared/user";
 import { isAdmin } from "../helpers/isAdmin";
 import { isAuthenticated } from "../helpers/isAuthenticated";
@@ -18,18 +17,14 @@ import { validateRegisterInputFields } from "../helpers/validateRegisterInputFie
 
 export default {
   Query: {
-    async getUserInfo(
-      _: void,
-      userId: String,
-      ctx: any
-    ): Promise<Document<User>> {
+    async getUserInfo(_: void, _id: any, ctx: any): Promise<Document<User>> {
       const token = ctx.token;
 
       await isAuthenticated(token);
       await isAdmin(token);
 
-      const user = await UserModel.findOne({ userId });
-
+      const user = await UserModel.findById(_id);
+      console.log(user);
       if (!user) {
         throw new ApolloError("User not found");
       }
@@ -51,8 +46,11 @@ export default {
       const { email, password, repeatPassword } = input;
 
       await validateRegisterInputFields(email, password, repeatPassword);
-      await isRegistered(email, UserModel);
-
+      const element = await UserModel.findOne({ email });
+      if (element) {
+        throw new ApolloError(`esiste in database
+        `);
+      }
       const salt = bcrypt.genSaltSync(10);
       const hash = bcrypt.hashSync(password, salt);
 
