@@ -56,6 +56,7 @@ App server
 - [ ] aggiungi utente (manuale)
 - [ ] modifica utente
 - [ ] cancella utente
+- [x] aggiungi note
 - [x] visualizza dettagli utente
 - [x] visualizza tutti gli utenti
 
@@ -103,6 +104,7 @@ Impostazioni utente
 - [ ] discovery ( vedi sopra)
 - [ ] lista trattamenti
 - [ ] ordina per categorie
+- [x] lista clienti
 
 Aggiungi
 
