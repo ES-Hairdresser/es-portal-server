@@ -27,10 +27,10 @@ export type User = {
   createdAt?: string;
   updatedAt?: string;
 };
-export interface LoginInput {
+export type LoginInput = {
   email: string;
   password: string;
-}
+};
 
 type LoggedUserData = {
   email: string;
@@ -43,4 +43,12 @@ export type LoginResponse = {
   userData?: LoggedUserData;
   role?: string;
   token: string;
+};
+
+export type NoteInput = {
+  body: string;
+  userId: string;
+};
+export type Note = {
+  body: string;
 };

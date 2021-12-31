@@ -6,7 +6,9 @@ export default async (server: ApolloServer) => {
   try {
     if (process.env.NODE_ENV) {
       await mongoose
-        .connect(process.env[process.env.NODE_ENV] as string)
+        .connect(
+          "mongodb+srv://vincenzo:test@cluster0.uostm.mongodb.net/es-portal-dev-db?retryWrites=true&w=majority" /* process.env[process.env.NODE_ENV] as string */
+        )
         .then((res) => console.log(`Connected to ${res.connection.name}`))
         .then(() =>
           server

@@ -9,6 +9,8 @@ import {
   RegisterInput,
   LoginInput,
   LoginResponse,
+  Note,
+  NoteInput,
 } from "../../shared/user";
 import { isAdmin } from "../helpers/isAdmin";
 import { isAuthenticated } from "../helpers/isAuthenticated";
@@ -107,6 +109,26 @@ export default {
         role,
         token,
       };
+    },
+
+    async addNote(
+      _: void,
+      args: NoteInput,
+      ctx: { token: string }
+    ): Promise<{ isNoteAdded: boolean }> {
+      const { token } = ctx;
+      const { userId, body } = JSON.parse(JSON.stringify(args)).input;
+      await isAuthenticated(token);
+      await isAdmin(token);
+      const isAdded = await UserModel.findByIdAndUpdate(userId, {
+        $set: {
+          notes: body,
+        },
+      })
+        .then((res) => (res?.notes ? true : false))
+        .catch((err) => err);
+
+      return { isNoteAdded: isAdded };
     },
   },
 };

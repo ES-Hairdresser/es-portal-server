@@ -36,6 +36,15 @@ export default gql`
     password: String!
   }
 
+  input noteInput {
+    userId: ID!
+    body: String!
+  }
+
+  type NoteResponse {
+    isNoteAdded: Boolean!
+  }
+
   type LoggedUserData {
     email: String!
     firstName: String!
@@ -56,5 +65,6 @@ export default gql`
   type Mutation {
     registerUser(input: registerInput): User!
     loginUser(input: loginInput): LoginResponse!
+    addNote(input: noteInput): NoteResponse!
   }
 `;
