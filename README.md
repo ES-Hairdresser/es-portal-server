@@ -53,7 +53,7 @@ App server
 
 - [x] login utente
 - [x] registra utente  
-- [ ] aggiungi utente (manuale)
+- [x] aggiungi utente (manuale)
 - [ ] modifica utente
 - [ ] cancella utente
 - [x] aggiungi note
@@ -68,6 +68,12 @@ App server
 - [ ] tutti gli appuntamenti
 - [ ] dettagli appuntamento
 
+logica selezione appuntamento:
+
+1 - ogni trattamento ha un tot di tempo a disposizione
+2 - Considerando il punto 1, l'utente decide quanti trattamenti vuole fare
+3 - In base alla selezione, il tempo totale viene calcolato dall`app e vengono mostrati nel calendario tutti gli slot disponibili ed i giorni
+in cui c'é posto per tutto il tempo richiesto dal cliente.
 ### Resolvers trattamento
 
 - [x] nuovo
@@ -110,7 +116,7 @@ Aggiungi
 
 - [ ] appuntamento
 - [ ] trattamento
-- [ ] utente
+- [x] utente
 
 Impostazioni utente
 

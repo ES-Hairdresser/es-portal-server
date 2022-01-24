@@ -65,6 +65,7 @@ export default gql`
   type Mutation {
     registerUser(input: registerInput): User!
     loginUser(input: loginInput): LoginResponse!
+    deleteUser(id: ID!): Boolean!
     addNote(input: noteInput): NoteResponse!
   }
 `;

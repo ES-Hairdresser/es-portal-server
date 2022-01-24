@@ -9,13 +9,14 @@ import {
   RegisterInput,
   LoginInput,
   LoginResponse,
-  Note,
   NoteInput,
 } from "../../shared/user";
 import { isAdmin } from "../helpers/isAdmin";
 import { isAuthenticated } from "../helpers/isAuthenticated";
 import { isRegistered } from "../helpers/isRegistered";
 import { validateRegisterInputFields } from "../helpers/validateRegisterInputFields";
+import SMTPTransport from "nodemailer/lib/smtp-transport";
+import { sendAccessEmailToUser } from "../helpers/sendAccessEmailToUser";
 
 export default {
   Query: {
@@ -43,11 +44,22 @@ export default {
     },
   },
   Mutation: {
-    async registerUser(_: void, args: RegisterInput): Promise<Document<User>> {
+    async registerUser(
+      _: void,
+      args: RegisterInput,
+      ctx: { token: string }
+    ): Promise<Document<User>> {
+      const admin = await isAdmin(ctx.token);
       const input = JSON.parse(JSON.stringify(args)).input;
-      const { email, password, repeatPassword } = input;
+
+      const { email, password, repeatPassword, firstName } = input;
 
       await validateRegisterInputFields(email, password, repeatPassword);
+      if (admin) {
+        console.log("admin is registering");
+
+        await sendAccessEmailToUser(email, firstName, password);
+      }
       const element = await UserModel.findOne({ email });
       if (element) {
         throw new ApolloError(`esiste in database
@@ -110,7 +122,20 @@ export default {
         token,
       };
     },
-
+    async deleteUser(
+      _: void,
+      args: ObjectId,
+      ctx: { token: string }
+    ): Promise<boolean> {
+      const { token } = ctx;
+      const admin = await isAdmin(token);
+      const id = JSON.parse(JSON.stringify(args)).id;
+      if (!admin) {
+        throw new ApolloError("Delete action is only possible for admin");
+      }
+      await UserModel.findByIdAndDelete(id);
+      return true;
+    },
     async addNote(
       _: void,
       args: NoteInput,
