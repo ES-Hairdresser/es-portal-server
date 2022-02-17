@@ -49,6 +49,17 @@ export type NoteInput = {
   body: string;
   userId: string;
 };
+
+export type UpdateInput = {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  role?: ROLE;
+  notes?: string;
+  profilePicture?: string;
+};
 export type Note = {
   body: string;
 };

@@ -10,6 +10,7 @@ import {
   LoginInput,
   LoginResponse,
   NoteInput,
+  UpdateInput,
 } from "../../shared/user";
 import { isAdmin } from "../helpers/isAdmin";
 import { isAuthenticated } from "../helpers/isAuthenticated";
@@ -152,8 +153,28 @@ export default {
       })
         .then((res) => (res?.notes ? true : false))
         .catch((err) => err);
-
+      console.log(isAdded);
       return { isNoteAdded: isAdded };
+    },
+    async updateUser(
+      _: void,
+      args: UpdateInput,
+      ctx: { token: string }
+    ): Promise<Document<User>> {
+      const { token } = ctx;
+      const data = JSON.parse(JSON.stringify(args)).input;
+      console.log(data);
+
+      await isAuthenticated(token);
+      await isAdmin(token);
+
+      const user = await UserModel.findById(data._id);
+      if (!user) {
+        throw new ApolloError("User not found for update");
+      }
+      Object.assign(user, { ...data });
+      user.save();
+      return user;
     },
   },
 };

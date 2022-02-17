@@ -5,12 +5,12 @@ export const validateRegisterInputFields = async (
   password: string,
   repeatPassword: string
 ) => {
-  const emailRegEx = new RegExp(
+  /* const emailRegEx = new RegExp(
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   );
   if (!emailRegEx.test(email)) {
     throw new ApolloError("Formato email non corretto");
-  }
+  } */
 
   if (password.length < 8) {
     throw new ApolloError("La password deve contenere almeno 8 caratteri");

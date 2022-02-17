@@ -30,6 +30,18 @@ export default gql`
     notes: String
     profilePicture: String
   }
+  input updateInput {
+    _id: ID!
+    firstName: String!
+    lastName: String!
+    email: String!
+    phone: String!
+    role: Role
+    notes: String
+    profilePicture: String
+    createdAt: String
+    updatedAt: String
+  }
 
   input loginInput {
     email: String!
@@ -64,6 +76,7 @@ export default gql`
 
   type Mutation {
     registerUser(input: registerInput): User!
+    updateUser(input: updateInput): User!
     loginUser(input: loginInput): LoginResponse!
     deleteUser(id: ID!): Boolean!
     addNote(input: noteInput): NoteResponse!
